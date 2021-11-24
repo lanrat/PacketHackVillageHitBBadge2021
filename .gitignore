@@ -4,3 +4,4 @@ OLEDi2C.c
 *.hex
 *.lss
 *.map
+dep/
