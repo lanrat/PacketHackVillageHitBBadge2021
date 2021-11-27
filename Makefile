@@ -5,7 +5,7 @@
 ## General Flags
 PROJECT = OLEDi2C
 MCU = atmega32
-TARGET = OLEDi2C.elf
+TARGET = dep/OLEDi2C.elf
 CC = avr-gcc
 
 ## Options common to compile, link and assembly rules
@@ -23,7 +23,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=OLEDi2C.map
+LDFLAGS +=  -Wl,-Map=dep/OLEDi2C.map
 
 
 ## Intel Hex file production flags
@@ -37,11 +37,13 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 ## Objects that must be built in order to link
 OBJECTS = OLEDi2C.o
 
+HEX = dep/OLEDi2C.hex
+
 ## Objects explicitly added by the user
 LINKONLYOBJECTS =
 
 ## Build
-all: $(TARGET) OLEDi2C.hex OLEDi2C.eep OLEDi2C.lss
+all: $(TARGET) $(HEX)
 
 ## Compile
 OLEDi2C.o: OLEDi2C.c
@@ -55,7 +57,7 @@ $(TARGET): $(OBJECTS)
 	avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
 
 %.eep: $(TARGET)
-	-avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@ #|| exit 0
+	-avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@
 
 %.lss: $(TARGET)
 	avr-objdump -h -S $< > $@
@@ -64,32 +66,21 @@ size: ${TARGET}
 	@echo
 	@avr-size -C --mcu=${MCU} ${TARGET}
 
-flash: OLEDi2C.hex
-	avrdude -p m32 -C +tigard.conf -c tigard -B 8 -v -e -U flash:w:OLEDi2C.hex:i
+flash: flash-tigard
 
-dump:
-		avrdude -p m32 -C +tigard.conf -c tigard -B 8 -v -e -U flash:r:OLEDi2C.read.hex:i
+flash-usbasp: $(HEX)
+	avrdude -p m32 -c usbasp -B 8 -v -e -U flash:w:$(HEX):i
 
-fuse-read:
-		avrdude -p m32 -C +tigard.conf -c tigard -B 8 -v -e -U lfuse:r:lfuse:r -U hfuse:r:hfuse:r
+flash-tigard: $(HEX)
+	avrdude -p m32 -C +conf/tigard.conf -c tigard -B 8 -v -e -U flash:w:$(HEX):i
 
-fuse-write:
-		avrdude -p m32 -C +tigard.conf -c tigard -B 8 -v -e -U lfuse:w:lfuse:r -U hfuse:w:hfuse:r
+fuse-read-tigard:
+		avrdude -p m32 -C +conf/tigard.conf -c tigard -B 8 -v -e -U lfuse:r:conf/lfuse:r -U hfuse:r:conf/hfuse:r
 
-
-dump-usbasp:
-		avrdude -p m32 -c usbasp -B 8 -v -e -U eeprom:r:OLEDi2C.read.hex:i
-
-flash-usbasp: OLEDi2C.hex
-	avrdude -p m32 -c usbasp -B 8 -v -e -U flash:w:OLEDi2C.hex:i
-
+fuse-write-tigard:
+		avrdude -p m32 -C +conf/tigard.conf -c tigard -B 8 -v -e -U lfuse:w:conf/lfuse:r -U hfuse:w:conf/hfuse:r
 
 ## Clean target
-.PHONY: clean
+.PHONY: clean flash
 clean:
-	-rm -rf $(OBJECTS) OLEDi2C.elf dep/* OLEDi2C.hex OLEDi2C.eep OLEDi2C.lss OLEDi2C.map
-
-flash: dep/OLEDi2C.hex
-
-## Other dependencies
--include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
+	-rm -rf $(OBJECTS) dep/*
