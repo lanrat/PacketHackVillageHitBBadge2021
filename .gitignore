@@ -5,3 +5,4 @@ OLEDi2C.c
 *.lss
 *.map
 dep/
+.vscode/
