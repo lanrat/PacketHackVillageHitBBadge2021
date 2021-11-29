@@ -9,7 +9,7 @@ Badge designed by [@TweetsFromPanda](https://twitter.com/TweetsFromPanda).
 
 ## Setup
 
-Install AVR compiler and built tools:
+Install AVR compiler and build tools:
 
 ### Linux (debian/ubuntu)
 
