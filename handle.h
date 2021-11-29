@@ -21,7 +21,7 @@ void display_handle()
 {
 #ifdef USER_HANDLE
   oled_clrscr();
-  // TOCO crop names longer than max_name_len
+  // TODO crop names longer than max_name_len
   int x = getPos(USER_HANDLE);
   print_fstring(USER_HANDLE, x, 3);
   _delay_ms(3 * 5000);
