@@ -27,7 +27,7 @@ brew install make avr-gcc avr-binutils avrdude
 
 ## Building
 
-`HANDLE="LANRAT"` is optional and is used to program your own handle/name onto the badge.
+`HANDLE="LANRAT"` is optional and is used to program your own handle/name onto the badge. Replace with your own handle/name.
 
 ```shell
 make clean
