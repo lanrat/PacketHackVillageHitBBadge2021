@@ -5,7 +5,6 @@
 
 <img width="1391" alt="badge" src="https://user-images.githubusercontent.com/164192/143951272-8e56367f-7359-47f5-b485-b351de2fadd6.png">
 
-
 Badge designed by [@TweetsFromPanda](https://twitter.com/TweetsFromPanda).
 
 ## Setup
@@ -15,7 +14,7 @@ Install AVR compiler and built tools:
 ### Linux (debian/ubuntu)
 
 ```shell
-sudo apt install make gcc-avr binutils-avr  gdb-avr avr-libc avrdude
+sudo apt install make gcc-avr binutils-avr gdb-avr avr-libc avrdude
 ```
 
 ### OSX (brew)
