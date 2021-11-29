@@ -17,7 +17,6 @@ CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -funsigned-char -funsigned-bitfields -f
 # allow the user to pass their handle
 ifdef HANDLE
   CFLAGS += -DUSER_HANDLE=\"$(HANDLE)\"
-  HANDLE_CLEAN = clean
 endif
 
 ## Assembly specific flags
