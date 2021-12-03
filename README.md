@@ -7,6 +7,8 @@
 
 Badge designed by [@TweetsFromPanda](https://twitter.com/TweetsFromPanda).
 
+**[More Badge Information on Hackster](https://www.hackster.io/433948/the-packet-hack-badge-fc54cc)**
+
 ## Setup
 
 Install AVR compiler and build tools:
